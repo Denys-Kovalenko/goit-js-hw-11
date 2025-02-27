@@ -4,11 +4,9 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchImages } from './js/pixabay-api';
 import { renderGallery } from './js/render-functions';
 import iziToast from 'izitoast';
-import SimpleLightbox from 'simplelightbox';
 
 const form = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
-let lightbox;
 
 form.addEventListener('submit', async event => {
   event.preventDefault();
@@ -24,10 +22,6 @@ form.addEventListener('submit', async event => {
       maxWidth: '432px',
     });
     return;
-  }
-
-  if (lightbox) {
-    lightbox.destroy();
   }
 
   gallery.innerHTML = '<p>Loading images, please wait...</p>';
@@ -47,15 +41,9 @@ form.addEventListener('submit', async event => {
     } else {
       gallery.innerHTML = '';
       renderGallery(images);
-
-      lightbox = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: 250,
-      });
-      lightbox.refresh();
     }
   } catch (error) {
     iziToast.error({ message: 'Error' });
-    gallery.innerHTML = '<p>Error</p>';
+    gallery.innerHTML = '<p>Loading images, please wait...</p>';
   }
 });
