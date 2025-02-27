@@ -26,6 +26,10 @@ form.addEventListener('submit', async event => {
     return;
   }
 
+  if (lightbox) {
+    lightbox.destroy();
+  }
+
   gallery.innerHTML = '<p>Loading images, please wait...</p>';
 
   try {
@@ -44,17 +48,14 @@ form.addEventListener('submit', async event => {
       gallery.innerHTML = '';
       renderGallery(images);
 
-      if (!lightbox) {
-        lightbox = new SimpleLightbox('.gallery a', {
-          captionsData: 'alt',
-          captionDelay: 250,
-        });
-      } else {
-        lightbox.refresh();
-      }
+      lightbox = new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+        captionDelay: 250,
+      });
+      lightbox.refresh();
     }
   } catch (error) {
     iziToast.error({ message: 'Error' });
-    gallery.innerHTML = '<p>Error loading images.</p>';
+    gallery.innerHTML = '<p>Error</p>';
   }
 });
